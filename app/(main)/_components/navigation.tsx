@@ -119,7 +119,7 @@ useEffect (() => {
         {!isCollapsed && (
           <>
             <div>
-              <p> <UserItem/> </p>
+              <p> <UserItem /> </p>
             </div>
             <div className="mt-4">
               <p>Documents</p>
