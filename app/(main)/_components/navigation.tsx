@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {Item} from "./item"
 import {toast} from "sonner";
+import {Search} from "lucide-react"
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -136,6 +137,13 @@ useEffect (() => {
           <>
             <div>
               <p> <UserItem /> </p>
+              <Item
+              label="Search"
+              icon={Search}
+              onClick={() => {}}
+              isSearch={true}
+              
+              />
               <Item 
               onClick={handleCreate}
               label="New Page"
