@@ -168,6 +168,8 @@ useEffect (() => {
            <PopoverContent className="p-0 w-72"
            side={isMobile ? "bottom" : "right"}>
 
+            <TrashBox />
+
            </PopoverContent>
 
             </Popover>

@@ -99,11 +99,11 @@ export const create = mutation({
 });
 
 export const getTrash = query({
-    args: {
-        refreshKey: v.optional(v.number()), // ✅ Accept refreshKey
-      },
-    handler: async (ctx) => {
-     const identity = await ctx.auth.getUserIdentity();
+  args: {
+    refreshKey: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
       throw new Error("Not authenticated");
@@ -111,17 +111,15 @@ export const getTrash = query({
 
     const userId = identity.subject;
 
-    const documents = await ctx.db 
-    .query("documents")
-    .withIndex("by_user", (q) => q.eq("userId", userId))
-    .filter((q) =>
-    q.eq(q.field("isArchived"), true)
-  )
-  return documents;
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("isArchived"), true))
+      .collect(); // ✅ needed
 
-
-    }
-})
+    return documents;
+  },
+});
 
 //restore documents
 

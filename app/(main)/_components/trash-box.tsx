@@ -5,30 +5,26 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { Search, Trash, Undo } from "lucide-react";
 import { toast } from "sonner";
-import { ConfirmModal } from "@/components/modals/confirm-modal";
+
 import { api } from "@/convex/_generated/api";
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
+// import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 export const TrashBox = () => {
   const router = useRouter();
   const params = useParams();
-
-  const [search, setSearch] = useState("");
-  const [refreshKey, setRefreshKey] = useState(0); // ✅ added to force re-fetching
-
-  const documents = useQuery(
-    api.documents.getTrash,
-    { refreshKey } // ✅ include in args to force refetch
-  ) as Doc<"documents">[] | undefined;
-  
+  const documents = useQuery(api.documents.getTrash, {}) as Doc<"documents">[] | undefined;;
   const restore = useMutation(api.documents.restore);
   const remove = useMutation(api.documents.remove);
 
-  const filteredDocuments = documents?.filter((document) =>
-    document.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const [search, setSearch] = useState("");
+
+  const filteredDocuments = documents?.filter((document) => {
+    return document.title.toLowerCase().includes(search.toLowerCase());
+  });
 
   const onClick = (documentId: string) => {
     router.push(`/documents/${documentId}`);
@@ -36,29 +32,27 @@ export const TrashBox = () => {
 
   const onRestore = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    documentId: Id<"documents">
+    documentId: Id<"documents">,
   ) => {
     event.stopPropagation();
-    const promise = restore({ id: documentId }).then(() =>
-      setRefreshKey((prev) => prev + 1) // ✅ triggers refetch
-    );
+    const promise = restore({ id: documentId });
 
     toast.promise(promise, {
       loading: "Restoring note...",
       success: "Note restored!",
-      error: "Failed to restore note.",
+      error:" Failed to restore note."
     });
   };
 
-  const onRemove = (documentId: Id<"documents">) => {
-    const promise = remove({ id: documentId }).then(() =>
-      setRefreshKey((prev) => prev + 1) // ✅ triggers refetch
-    );
+  const onRemove = (
+    documentId: Id<"documents">,
+  ) => {
+    const promise = remove({ id: documentId });
 
     toast.promise(promise, {
       loading: "Deleting note...",
       success: "Note deleted!",
-      error: "Failed to delete note.",
+      error:" Failed to delete note."
     });
 
     if (params.documentId === documentId) {
@@ -85,14 +79,10 @@ export const TrashBox = () => {
           placeholder="Filter by page title..."
         />
       </div>
-
       <div className="mt-2 px-1 pb-1">
-        {filteredDocuments?.length === 0 && (
-          <p className="text-xs text-center text-muted-foreground pb-2">
-            No documents found.
-          </p>
-        )}
-
+        <p className="hidden last:block text-xs text-center text-muted-foreground pb-2">
+          No documents found.
+        </p>
         {filteredDocuments?.map((document) => (
           <div
             key={document._id}
@@ -100,7 +90,9 @@ export const TrashBox = () => {
             onClick={() => onClick(document._id)}
             className="text-sm rounded-sm w-full hover:bg-primary/5 flex items-center text-primary justify-between"
           >
-            <span className="truncate pl-2">{document.title}</span>
+            <span className="truncate pl-2">
+              {document.title}
+            </span>
             <div className="flex items-center">
               <div
                 onClick={(e) => onRestore(e, document._id)}
