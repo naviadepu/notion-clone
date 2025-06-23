@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsLeft, MenuIcon, PlusCircle, Settings } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Settings, Trash } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -12,6 +12,8 @@ import {Item} from "./item"
 import {toast} from "sonner";
 import {Search} from "lucide-react"
 import { DocumentList } from "./documents-list";
+import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
+import { TrashBox} from "./trash-box"
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -155,12 +157,20 @@ useEffect (() => {
                icon={PlusCircle} 
               />
             </div>
-
             <div className="mt-4">
             <DocumentList />
             
-            
             </div>
+            <Popover>
+           <PopoverTrigger className="w-ful mt-4">
+              <Item label="Trash" icon={Trash} />
+           </PopoverTrigger>
+           <PopoverContent className="p-0 w-72"
+           side={isMobile ? "bottom" : "right"}>
+
+           </PopoverContent>
+
+            </Popover>
 
             <div
               onMouseDown={handleMouseDown}
