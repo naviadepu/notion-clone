@@ -4,6 +4,7 @@ import { useConvexAuth } from "convex/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {Navigation} from "./_components/navigation";
+import { SearchCommand } from "@/components/search-command";
 
 
 
@@ -28,8 +29,12 @@ const {isAuthenticated, isLoading} = useConvexAuth();
     <div className="h-full flex dark:bg-black">
         <Navigation />
         <main className="flex h-full over">
+            <SearchCommand />
+        
+
             </main> 
-        {children}
+            {children}
+       
     </div>
     );
     
