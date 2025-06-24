@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/ui/providers/convex-proider";
+import { ModalProvider } from "@/components/ui/providers/modal-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,8 +72,11 @@ export default function RootLayout({
           enableSystem
           storageKey="notion-theme"
         >
+
           <Toaster position="bottom-center"/>
+          <ModalProvider />
           {children}
+
         </ThemeProvider>
         </ConvexClientProvider>
       </body>
