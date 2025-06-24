@@ -102,8 +102,10 @@ useEffect (() => {
     resetWidth(); // use same resetWidth logic
   };
 
-  const handleCreate = () =>{
+  const handleCreate = (e?: React.MouseEvent) =>{
+    e?.stopPropagation();
     const promise = create({title: "Untilted"});
+    
 
     toast.promise(promise, {
       loading: "creating a new note...",
@@ -159,7 +161,7 @@ useEffect (() => {
               onClick={handleCreate}
               label="New Page"
                icon={PlusCircle} 
-              />
+               />
             </div>
             <div className="mt-4">
             <DocumentList />
