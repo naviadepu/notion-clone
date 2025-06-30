@@ -11,43 +11,43 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface BannerProps {
   documentId: Id<"documents">;
-};
+}
 
-export const Banner = ({
-  documentId
-}: BannerProps) => {
+export const Banner = ({ documentId }: BannerProps) => {
   const router = useRouter();
 
   const remove = useMutation(api.documents.remove);
   const restore = useMutation(api.documents.restore);
 
-  const onRemove = () => {
+  const onRemove = async () => {
     const promise = remove({ id: documentId });
 
     toast.promise(promise, {
       loading: "Deleting note...",
       success: "Note deleted!",
-      error: "Failed to delete note."
+      error: "Failed to delete note.",
     });
 
-    router.push("/documents");
+    await promise;
+    router.refresh(); // ✅ refresh to show archived state
   };
 
-  const onRestore = () => {
+  const onRestore = async () => {
     const promise = restore({ id: documentId });
 
     toast.promise(promise, {
       loading: "Restoring note...",
       success: "Note restored!",
-      error: "Failed to restore note."
+      error: "Failed to restore note.",
     });
+
+    await promise;
+    router.refresh(); // ✅ refresh to show un-archived state
   };
 
   return (
     <div className="w-full bg-rose-500 text-center text-sm p-2 text-white flex items-center gap-x-2 justify-center">
-      <p>
-        This page is in the Trash.
-      </p>
+      <p>This page is in the Trash.</p>
       <Button
         size="sm"
         onClick={onRestore}
@@ -66,5 +66,5 @@ export const Banner = ({
         </Button>
       </ConfirmModal>
     </div>
-  )
-}
+  );
+};
