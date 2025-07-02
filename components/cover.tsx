@@ -22,12 +22,20 @@ export const Cover = ({
     url,
     preview,
   }: CoverImageProps) => {
+    
     const { edgestore } = useEdgeStore();
     const params = useParams();
     const coverImage = useCoverImage();
     const removeCoverImage = useMutation(api.documents.removeCoverImage);
   
     const onRemove = async () => {
+      if(url) {
+        await 
+        edgestore.publicFiles.delete({
+          url:url
+        })
+      }
+      
       if (url) {
         await edgestore.publicFiles.delete({ url });
       }
@@ -37,21 +45,22 @@ export const Cover = ({
     };
   
     return (
-      <div className={cn(
-        "relative w-full h-[35vh] overflow-hidden group",
-        !url && "h-[12vh]",
-        url && "bg-muted"
-      )}>
+      <div
+        className={cn(
+          "relative w-full min-w-0 block h-[200px] md:h-[280px] lg:h-[320px] overflow-hidden group",
+          !url && "h-[80px] md:h-[120px] lg:h-[160px]",
+          url && "bg-muted"
+        )}
+        style={{ minWidth: 0 }}
+      >
         {!!url && (
-          <div className="absolute top-0 left-0 w-full h-full">
-            <Image
-              src={url}
-              alt="Cover"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
+          <Image
+            src={url}
+            alt="Cover"
+            fill
+            priority
+            className="object-cover w-full h-full block"
+          />
         )}
   
         {url && !preview && (

@@ -1,6 +1,7 @@
 import {create} from "zustand";
 
 type coverImageStore = {
+    url: string | undefined;
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
