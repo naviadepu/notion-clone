@@ -9,11 +9,10 @@ import{
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronsLeftIcon, ChevronsLeftRight } from "lucide-react";
+import { ChevronsLeftRight } from "lucide-react";
 
 export const UserItem = () => {
     const { user } = useUser(); //curently loggedin user

@@ -2,38 +2,31 @@
 
 import React from "react";
 import { useMutation, useQuery } from "convex/react";
-import dynamic from "next/dynamic";
-import { useMemo } from "react";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Toolbar } from "@/components/toolbar";
 import { Cover } from "@/components/cover";
 import { Skeleton } from "@/components/ui/skeleton";
-import Editor  from "@/components/editor";
+import Editor from "@/components/editor";
 
 interface DocumentIdPageProps {
-  params: Promise<{
+  params: {
     documentId: Id<"documents">;
-  }>;
+  };
 };
 
-const DocumentIdPage = ({
-  params
-}: DocumentIdPageProps) => {
-  const resolvedParams = React.use(params);
-  
-
+const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const document = useQuery(api.documents.getById, {
-    documentId: resolvedParams.documentId
+    documentId: params.documentId,
   });
 
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
     update({
-      id: resolvedParams.documentId,
-      content
+      id: params.documentId,
+      content,
     });
   };
 
@@ -55,10 +48,10 @@ const DocumentIdPage = ({
   }
 
   if (document === null) {
-    return <div>Not found</div>
+    return <div>Not found</div>;
   }
 
-  return ( 
+  return (
     <div className="pb-40 relative">
       <div className="fixed top-0 left-0 w-full z-0">
         <Cover url={document.coverImage} />
@@ -66,14 +59,11 @@ const DocumentIdPage = ({
       <div className="relative z-10 pt-[200px] md:pt-[280px] lg:pt-[320px]">
         <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
           <Toolbar initialData={document} />
-          <Editor 
-          onChange={onChange}
-          initialContent={document.content}
-          />
+          <Editor onChange={onChange} initialContent={document.content} />
         </div>
       </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default DocumentIdPage;
