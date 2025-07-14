@@ -9,6 +9,7 @@ import { Toolbar } from "@/components/toolbar";
 import { Cover } from "@/components/cover";
 import { Skeleton } from "@/components/ui/skeleton";
 import Editor from "@/components/editor";
+import { SingleImageDropzone } from "@/components/single-image-dropzone";
 
 interface DocumentIdPageProps {
   params: {
@@ -59,7 +60,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
       <div className="relative z-10 pt-[200px] md:pt-[280px] lg:pt-[320px]">
         <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
           <Toolbar initialData={document} />
-          <Editor onChange={onChange} initialContent={document.content} />
+          <Editor initialContent={document.content} />
         </div>
       </div>
     </div>

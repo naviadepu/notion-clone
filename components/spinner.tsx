@@ -20,7 +20,6 @@ const spinnerVariants = cva(
 
     },
 );
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 
 interface SpinnerProps extends VariantProps<typeof spinnerVariants> {}
 export const Spinner =({

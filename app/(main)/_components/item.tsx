@@ -83,7 +83,7 @@ export const Item = ({
     event.stopPropagation();
     if (!id) return;
     const promise = create({ title: "Untitled", parentDocument: id })
-      .then((documentId) => {
+      .then(() => {
         if (!expanded) {
           onExpand?.();
         }

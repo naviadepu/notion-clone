@@ -1,8 +1,5 @@
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-
 export const Heroes = () => {
     return (
         <div className = "flec flec-col items-center justify-centermax-w-5xl">
