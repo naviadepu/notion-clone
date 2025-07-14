@@ -11,22 +11,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Editor from "@/components/editor";
 import { SingleImageDropzone } from "@/components/single-image-dropzone";
 
-interface DocumentIdPageProps {
-  params: {
-    documentId: Id<"documents">;
-  };
-};
-
-const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
+export default function Page({ params }: { params: { documentId: string } }) {
   const document = useQuery(api.documents.getById, {
-    documentId: params.documentId,
+    documentId: params.documentId as Id<"documents">,
   });
 
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
     update({
-      id: params.documentId,
+      id: params.documentId as Id<"documents">,
       content,
     });
   };
@@ -66,5 +60,3 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     </div>
   );
 };
-
-export default DocumentIdPage;
