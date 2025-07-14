@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { useMutation, useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
@@ -11,16 +11,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Editor from "@/components/editor";
 import { SingleImageDropzone } from "@/components/single-image-dropzone";
 
-export default function Page({ params }: { params: { documentId: string } }) {
+export default function Page({ params }: { params: Promise<{ documentId: string }> }) {
+  const { documentId } = use(params);
+
   const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<"documents">,
+    documentId: documentId as Id<"documents">,
   });
 
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
     update({
-      id: params.documentId as Id<"documents">,
+      id: documentId as Id<"documents">,
       content,
     });
   };
